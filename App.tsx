@@ -4,6 +4,7 @@ import QRForm from './components/QRForm';
 import QRPreview from './components/QRPreview';
 import Customizer from './components/Customizer';
 import History from './components/History';
+import Footer from './components/Footer';
 import { QRConfig, QRType } from './types';
 import { DEFAULT_CONFIG } from './constants';
 import { Sparkles, RefreshCcw, Moon, Sun, Github } from 'lucide-react';
@@ -59,7 +60,7 @@ const App: React.FC = () => {
 
   const saveToHistory = useCallback((currentConfig: QRConfig) => {
     if (!currentConfig.value.trim()) return;
-    
+
     setHistory(prev => {
       const filtered = prev.filter(item => item.value !== currentConfig.value);
       const newHistory = [{ ...currentConfig, timestamp: Date.now() }, ...filtered].slice(0, 5);
@@ -121,11 +122,10 @@ const App: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500 overflow-x-hidden">
       {toast && (
         <div className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] sm:w-auto pointer-events-none">
-          <div className={`px-5 py-3 rounded-2xl shadow-2xl flex items-center justify-center gap-3 border backdrop-blur-md animate-in fade-in slide-in-from-top-4 duration-300 ${
-            toast.type === 'success' 
-            ? 'bg-white/95 dark:bg-slate-900/95 border-indigo-100 dark:border-indigo-900 text-indigo-700 dark:text-indigo-300' 
-            : 'bg-red-50/95 dark:bg-red-950/95 border-red-100 dark:border-red-900 text-red-600 dark:text-red-400'
-          }`}>
+          <div className={`px-5 py-3 rounded-2xl shadow-2xl flex items-center justify-center gap-3 border backdrop-blur-md animate-in fade-in slide-in-from-top-4 duration-300 ${toast.type === 'success'
+              ? 'bg-white/95 dark:bg-slate-900/95 border-indigo-100 dark:border-indigo-900 text-indigo-700 dark:text-indigo-300'
+              : 'bg-red-50/95 dark:bg-red-950/95 border-red-100 dark:border-red-900 text-red-600 dark:text-red-400'
+            }`}>
             <Sparkles size={18} className="flex-shrink-0" />
             <span className="font-bold text-sm tracking-tight">{toast.message}</span>
           </div>
@@ -144,14 +144,14 @@ const App: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <button 
+          <button
             onClick={() => setDarkMode(!darkMode)}
             className="p-2.5 sm:p-3 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-all shadow-sm flex items-center justify-center"
             aria-label="Toggle Dark Mode"
           >
             {darkMode ? <Sun size={18} className="sm:w-5 sm:h-5" /> : <Moon size={18} className="sm:w-5 sm:h-5" />}
           </button>
-          <button 
+          <button
             onClick={resetGenerator}
             className="p-2.5 sm:p-3 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl text-slate-500 dark:text-slate-400 hover:text-indigo-600 transition-all shadow-sm flex items-center justify-center"
             title="Reset All"
@@ -163,16 +163,16 @@ const App: React.FC = () => {
 
       {/* Main Content - Single Column Layout */}
       <main className="max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-12 sm:pb-20 flex-grow space-y-8">
-        
+
         {/* Section 1: Input */}
         <section className="bg-white dark:bg-slate-900/40 rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-800/60 shadow-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
           <div className="flex items-center gap-3 mb-6">
             <span className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs">1</span>
             <h2 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100 uppercase tracking-tight">Select Content</h2>
           </div>
-          <QRForm 
-            type={config.type} 
-            onTypeChange={handleTypeChange} 
+          <QRForm
+            type={config.type}
+            onTypeChange={handleTypeChange}
             onValueChange={(val) => handleConfigChange({ value: val })}
             initialValue={config.value}
           />
@@ -188,14 +188,14 @@ const App: React.FC = () => {
         </section>
 
         {/* Section 3: History */}
-        <History 
-          items={history} 
-          onSelect={(item) => setConfig(item)} 
+        <History
+          items={history}
+          onSelect={(item) => setConfig(item)}
           onClear={() => {
             setHistory([]);
             localStorage.removeItem('qr_history');
             showToast('History cleared');
-          }} 
+          }}
         />
 
         {/* Section 4: Live Preview - LAST SECTION */}
@@ -209,22 +209,7 @@ const App: React.FC = () => {
 
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 dark:border-slate-800 py-10 bg-white dark:bg-slate-950/50 transition-colors">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-slate-500 dark:text-slate-500 text-sm font-medium">
-            &copy; {new Date().getFullYear()} QRNest. High performance QR generation.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 mt-6">
-            <a href="#" className="text-sm text-slate-400 hover:text-indigo-600 transition-colors">Privacy</a>
-            <a href="#" className="text-sm text-slate-400 hover:text-indigo-600 transition-colors">Terms</a>
-            <a href="#" className="text-sm text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1">
-              <Github size={16} />
-              Open Source
-            </a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
