@@ -11,12 +11,8 @@ const Footer: React.FC = () => {
                     {/* Left Side: Logo & Quote */}
                     <div className="flex flex-col items-center md:items-start gap-4">
                         <div className="flex items-center gap-3 group">
-                            <div className="w-10 h-10 transition-all duration-300 group-hover:scale-110">
-                                <img
-                                    src="/favicon.png"
-                                    alt="QRNest Logo"
-                                    className="w-full h-full object-contain grayscale brightness-0 dark:invert transition-all duration-500"
-                                />
+                            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg rotate-3 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6">
+                                <span className="font-black text-xl">N</span>
                             </div>
                             <h2 className="text-xl font-black tracking-tight text-slate-800 dark:text-white uppercase">
                                 QR<span className="text-indigo-600">Nest</span>
